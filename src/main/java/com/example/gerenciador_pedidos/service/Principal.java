@@ -5,6 +5,7 @@ import com.example.gerenciador_pedidos.repository.PedidoRepository;
 import com.example.gerenciador_pedidos.repository.ProdutoRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class Principal {
@@ -35,19 +36,21 @@ public class Principal {
                 case 1:
                     System.out.println("Qual a categoria do pedido?");
                     var categoriaPedido = scanner.nextLine();
-                    Categoria categoria = new Categoria(categoriaPedido);
+                    Categoria categoria = new Categoria(null, categoriaPedido);
 
                     System.out.println("Qual o nome do produto?");
                     var nomeProduto = scanner.nextLine();
                     System.out.println("Qual o preço do produto?");
                     String inputPreco = scanner.nextLine();
                     double precoProduto = Double.parseDouble(inputPreco);
-                    Produto produto = new Produto(nomeProduto, precoProduto);
-
+                    Produto produto = new Produto(nomeProduto, precoProduto, categoria);
+                    categoria.setProdutos(List.of(produto));
                     Pedido pedido = new Pedido(LocalDate.now());
-                    produtoRepo.save(produto);
+
                     categoriaRepo.save(categoria);
+                    produtoRepo.save(produto);
                     pedidoRepo.save(pedido);
+
                     break;
                 case 0:
                     System.out.println("Saindo...");
