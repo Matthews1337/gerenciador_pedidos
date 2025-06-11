@@ -2,6 +2,8 @@ package com.example.gerenciador_pedidos.service;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 public class Produto {
 
@@ -27,7 +29,24 @@ public class Produto {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
+    @ManyToOne
+    @JoinColumn(name = "pedido_id")
+    private Pedido pedido;
 
+    public Produto(String nomeProduto, double precoProduto, Categoria categoria, Pedido pedido) {
+        this.nome = nomeProduto;
+        this.preco = precoProduto;
+        this.categoria = categoria;
+        this.pedido = pedido;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
 
     public Categoria getCategoria() {
         return categoria;
@@ -59,5 +78,12 @@ public class Produto {
 
     public void setPreco(Double preco) {
         this.preco = preco;
+    }
+
+    @Override
+    public String toString() {
+        return "nome= " + nome +
+                ", preco= " + preco +
+                ", categoria= " + categoria.getNome();
     }
 }

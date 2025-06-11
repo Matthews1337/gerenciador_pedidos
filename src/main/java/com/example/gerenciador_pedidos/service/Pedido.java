@@ -1,11 +1,10 @@
 package com.example.gerenciador_pedidos.service;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -20,7 +19,11 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private LocalDate data;
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private  List<Produto> produtos;
 
     public Long getId() {
         return id;
@@ -37,4 +40,19 @@ public class Pedido {
     public void setData(LocalDate data) {
         this.data = data;
     }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
+    }
+
+    @Override
+    public String toString() {
+        return ", data=" + data +
+                ", produto=" + produtos;
+    }
+
 }
